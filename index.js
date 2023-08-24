@@ -2,15 +2,17 @@ const express = require('express')
 const cors = require('cors')
 const app = express()
 const mysql = require('mysql')
+require('dotenv').config()
 
-
-const connection = mysql.createConnection({
-    host: 'localhost',
-    user: 'root',
-    password: '123456',
-    database: 'portfolio',
+const connection = mysql.createConnection(process.env.DATABASE_URL)
+    // host: 'localhost',
+    // user: 'root',
+    // password: '123456',
+    // database: 'portfolio',
     
-})
+    app.use(cors())
+    app.use(express.json())
+
 connection.connect((err)=>{
     if(err){
         console.log('error connecting =',err);
@@ -18,8 +20,6 @@ connection.connect((err)=>{
     }
     console.log('mysql successfully connected');
 })
-app.use(cors())
-app.use(express.json())
 
 app.get('/users',(req,res)=>{
     connection.query("SELECT * FROM project",(err,result)=>{
@@ -57,4 +57,4 @@ app.delete('/deletedata/:id',(req,res)=>{
         else{res.send('deleted successfully')}
 })
 })
-app.listen(3333,()=>{console.log('server is running 3333');})
+app.listen(process.env.PORT || 3333,()=>{console.log('server is running 3333');})
