@@ -57,4 +57,4 @@ app.delete('/deletedata/:id',(req,res)=>{
         else{res.send('deleted successfully')}
 })
 })
-app.listen(process.env.PORT || 3333,()=>{console.log('server is running 3333');})
+app.listen( 3333,()=>{console.log('server is running 3333');})
