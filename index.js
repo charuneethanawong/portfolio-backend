@@ -5,13 +5,11 @@ const mysql = require('mysql')
 require('dotenv').config()
 
 const connection = mysql.createConnection(process.env.DATABASE_URL)
-    // host: 'localhost',
-    // user: 'root',
-    // password: '123456',
-    // database: 'portfolio',
+
     
     app.use(cors())
     app.use(express.json())
+   
 
 connection.connect((err)=>{
     if(err){
@@ -21,7 +19,12 @@ connection.connect((err)=>{
     console.log('mysql successfully connected');
 })
 
+
 app.get('/users',(req,res)=>{
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE'); // If needed
+    res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type');
+    res.setHeader('Access-Control-Allow-Credentials', true)
     connection.query("SELECT * FROM project",(err,result)=>{
         if (err)console.log(err)
         else{res.send(result)}
@@ -29,6 +32,10 @@ app.get('/users',(req,res)=>{
 })
 
 app.post('/adddata',(req,res)=>{
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE'); // If needed
+    res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type');
+    res.setHeader('Access-Control-Allow-Credentials', true)
    const {firstName,lastName,age} = req.body
     connection.query("INSERT INTO project (firstname, lastname, age) VALUES(?,?,?)",
     [firstName,lastName,age]
